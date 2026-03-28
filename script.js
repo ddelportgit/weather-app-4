@@ -29,7 +29,6 @@ function getWeather(lat, lon, timezone) {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
       return {
         current: parseCurrentWeather(data),
         daily: parseDailyWeather(data),
@@ -100,7 +99,7 @@ const tableSection = document.getElementById("table-section");
 
 // Geocoding
 
-const geocodingApiKey = "e2c698c42e064432ae0ae88303b47af0";
+const geocodingApiKey = "f87c48157cf341f5b48e1d917fabf6de";
 
 document.getElementById("searchButton").addEventListener("click", convertWeatherData);
 
@@ -110,12 +109,11 @@ function convertWeatherData() {
   if (location) {
     fetch(
       `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
-        location
-      )}&key=${geocodingApiKey}`
+        location,
+      )}&key=${geocodingApiKey}`,
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         const lat = data.results[0].geometry.lat;
         const lon = data.results[0].geometry.lng;
         const timezoneResult = data.results[0].annotations.timezone.name;
@@ -127,13 +125,6 @@ function convertWeatherData() {
 }
 
 // Get weather
-
-// getWeather(10, 10, Intl.DateTimeFormat().resolvedOptions().timeZone)
-//   .then(renderWeather)
-//   .catch((e) => {
-//     console.error(e);
-//     // alert("Error getting weather.");
-//   });
 
 function renderWeather({ current, daily, hourly }) {
   renderCurrentWeather(current);
